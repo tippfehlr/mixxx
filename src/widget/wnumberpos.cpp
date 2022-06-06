@@ -104,9 +104,13 @@ void WNumberPos::slotSetTimeElapsed(double dTimeElapsed) {
         if (m_pDeck) {
             TrackPointer m_pTrack = m_pDeck->getLoadedTrack();
             if (m_pTrack) {
-                mixxx::audio::FramePos currentFramePos = m_pDeck->getEngineDeck()->getEngineBuffer()->getExactPlayPos();
+                mixxx::audio::FramePos currentFramePos = 
+                    m_pDeck->getEngineDeck()
+                        ->getEngineBuffer()
+                        ->getExactPlayPos();
                 QList<CuePointer> trackCues = m_pTrack->getCuePoints();
-                QList<mixxx::audio::FramePos> cuesFromCurrentPosition = QList<mixxx::audio::FramePos>();
+                QList<mixxx::audio::FramePos> cuesFromCurrentPosition = 
+                    QList<mixxx::audio::FramePos>();
 
                 //Iterate through current Track cues and create a list with the FramePos of the ones
                 // that are after the current play position. We add them ordered in the new list
@@ -133,13 +137,17 @@ void WNumberPos::slotSetTimeElapsed(double dTimeElapsed) {
                             cuesFromCurrentPosition.first();
                     m_pTrack->getBeats()->numBeatsInRange(
                             currentFramePos, closestCueFramePos);
-                    cuesText = std::to_string(m_pTrack->getBeats()->numBeatsInRange(currentFramePos, closestCueFramePos));
+                    cuesText = std::to_string(
+                        m_pTrack->getBeats()->numBeatsInRange(
+                            currentFramePos, closestCueFramePos));
 
                 } else {
-                    setText(QString::fromStdString("No cues left | -") + timeFormat(dTimeRemaining, precision));
+                    setText(QString::fromStdString("No cues left | -") + 
+                        timeFormat(dTimeRemaining, precision));
                 }
 
-                setText(QString::fromStdString(cuesText + " beats | " + "-") + timeFormat(dTimeRemaining, precision));
+                setText(QString::fromStdString(cuesText + " beats | " + "-") + 
+                    timeFormat(dTimeRemaining, precision));
 
             } else {
                 //Fallback to remaining time display
