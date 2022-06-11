@@ -44,12 +44,17 @@ void ClockControl::trackLoaded(TrackPointer pNewTrack) {
         m_pTrackCues = pNewTrack->getCuePoints();
     }
     trackBeatsUpdated(pBeats);
+    QObject::connect(pNewTrack.get(), &Track::cuesUpdatedWithCueList, this, &ClockControl::trackCuesUpdated);
 }
 
 void ClockControl::trackBeatsUpdated(mixxx::BeatsPointer pBeats) {
     // Clear on-beat control
     m_pCOBeatActive->forceSet(0.0);
     m_pBeats = pBeats;
+}
+
+void ClockControl::trackCuesUpdated(QList<CuePointer> cuePointerList) {
+    m_pTrackCues = cuePointerList;
 }
 
 void ClockControl::updateIndicators(const double dRate,
@@ -233,8 +238,6 @@ void ClockControl::updateBeatCounter(mixxx::BeatsPointer pBeats,
             }
         }
     }
-
-    //ToDo (Maldini) - Add the outro position to the CueList to count down until end of the track
 
     //Since the cuesFromCurrentPosition is ordered, we only need to calculate the difference from the current position
     //with the first element of the list, which would be the closest CUE point to the current play position

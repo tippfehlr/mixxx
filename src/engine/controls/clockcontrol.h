@@ -26,6 +26,7 @@ class ClockControl: public EngineControl {
 
     void trackLoaded(TrackPointer pNewTrack) override;
     void trackBeatsUpdated(mixxx::BeatsPointer pBeats) override;
+    void trackCuesUpdated(QList<CuePointer> cuePointerList);
 
   private:
     
